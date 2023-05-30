@@ -242,12 +242,13 @@ Linpack* benchmark
 
 ### Weighted Execution Time Examples
 
-                                CPU A   CPU B   CPU C 
-Program P1                      1       10      20 
-Program P2                      1000    100     20 
-Arithmetic mean                 500.5   55      20
-Weighted mean(W1=0.8,W2=0.2)    200.8   28      20
-Weighted mean(W1=0.9,W2=0.1)    100.9   19      20
+||CPU A|CPU B|CPU C|
+|--|--|--|--|
+|Program P1|1|10|20| 
+|Program P2|1000|100|20| 
+|Arithmetic mean|500.5|55|20|
+|Weighted mean(W1=0.8,W2=0.2)|200.8|28|20|
+|Weighted mean(W1=0.9,W2=0.1)|100.9|19|20|
 
 
 ### Test Yourself
@@ -256,10 +257,11 @@ Weighted mean(W1=0.9,W2=0.1)    100.9   19      20
 - We run these on 3 computers C1, C2, and C3 and obtain
 
 
-                C1   C2   C3 
-Program P1      1    10   100
-Program P2      100  10   1 
-Sum             101  20   101   
+||C1|C2|C3|
+|--|--|--|--|
+|Program P1|1|    10|   100|
+|Program P2|100|  10|   1| 
+|Sum|             101|  20|   101|   
 
 
 - When is C1 the best buy? (What frequencies should P1 and P2 have?)
@@ -303,16 +305,17 @@ TODO: fill in with formula
 - Do NOT use arithmetic mean to average normalized execution times 
 
 
-            CPU A   CPU B   CPU C
-Program 1   1       10      20
-Program 2   1000    100     20
+||CPU A|   CPU B|   CPU C|
+|Program 1|   1|       10|      20|
+|Program 2|   1000|    100|     20|
 
 
-                    Normalized to A         Normalized to B
-                    A       B       C       A       B       C
-Program 1           1.0     0.1     0.05    10.0    1.0     0.5
-Program 2           1.0     10.0    50      0.1     1.0     5.0
-Arithmetic mean     1.0     5.05    25.025  5.05    1.0     2.75
+|                    |Normalized to A|         Normalized to B|
+|--|--|--|
+||                    A|       B|       C|       A|       B|       C|
+|Program 1|           1.0|     0.1|     0.05|    10.0|    1.0|     0.5|
+|Program 2|           1.0|     10.0|    50|      0.1|     1.0|     5.0|
+|Arithmetic mean|     1.0|     5.05|    25.025|  5.05|    1.0|     2.75|
 
 
 ### Geometric Mean
@@ -326,11 +329,12 @@ n_root(multiply_n(ExecutionTimeRatio_i))
 
 
 
-                    Normalized to A         Normalized to B
-                    A       B       C       A       B       C
-Program 1           1.0     0.1     0.05    10.0    1.0     0.5
-Program 2           1.0     10.0    50      0.1     1.0     5.0
-Geometric mean      1.0     1.0     1.58    1.0     1.0     1.58
+||                    Normalized to A|         Normalized to B|
+|--|--|--|
+||                    A|       B|       C|       A|       B|       C|
+|Program 1|           1.0|     0.1|     0.05|    10.0|    1.0|     0.5|
+|Program 2|           1.0|     10.0|    50|      0.1|     1.0|     5.0|
+|Geometric mean|      1.0|     1.0|     1.58|    1.0|     1.0|     1.58|
 
 
 ## 1.1.5 CPU Performance Equation
@@ -360,11 +364,12 @@ t_cycle     Less work per cycle                         CPI increases
 ### Calculating Execution Time 
 - Program executes 5M instrs w/ instr mix:
 
-Instruction     Frequency   CPI_instr
-ALU             50%         3 
-Load            20%         5 
-Store           10%         4 
-Branch          20%         3
+|Instruction     |Frequency   |CPI_instr|
+|--|--|--|
+|ALU             |50%         |3| 
+|Load            |20%         |5| 
+|Store           |10%         |4| 
+|Branch          |20%         |3|
 
 
 - CPU has frequency of 2 GHz
