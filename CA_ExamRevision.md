@@ -83,11 +83,10 @@ Linpack* benchmark
 
 ### Practice Quiz
 1. Which of the following is wrong:
-    -[ ] The wall-clock time is the total elapsed time,
-        including IO, operating systems overhead, etc
-    -[ ] Multi-threading improves the throughput of a process 
-    -[ ] The CPU time does not include the IO time 
-    -[x] Multi-threading improves the execution time of a process
+    - [ ] The wall-clock time is the total elapsed time, including IO, operating systems overhead, etc
+    - [ ] Multi-threading improves the throughput of a process 
+    - [ ] The CPU time does not include the IO time 
+    - [x] Multi-threading improves the execution time of a process
 
 
 
@@ -174,19 +173,19 @@ Linpack* benchmark
 ## 1 Practice Quiz Fundamentals
 
 1. What is the throughput?
--[ ] performance per Watt (the number of FIOPs per Watt)
--[x] rate of processing work (n/jobs/second)
--[ ] the time between start and completion of event/task/program(n seconds)
--[ ] the percentage of time a system is up and running
+- [ ] performance per Watt (the number of FIOPs per Watt)
+- [x] rate of processing work (n/jobs/second)
+- [ ] the time between start and completion of event/task/program(n seconds)
+- [ ] the percentage of time a system is up and running
 
 2. What is SPEC?
--[ ] is a benchmark suite developed to measure performance based
+- [ ] is a benchmark suite developed to measure performance based
      on the latest Java application feature 
--[ ] is a benchmark that evaluates the power and performance 
+- [ ] is a benchmark that evaluates the power and performance 
      characteristics of volume server class computers 
--[ ] is the worldwide standard for measuring graphick performance 
+- [ ] is the worldwide standard for measuring graphick performance 
      based on professional applications 
--[x] is a benchmark suite designed to provide performance measurements 
+- [x] is a benchmark suite designed to provide performance measurements 
      that can be used to compare computer-intensive workloads on 
      different computer systems
 
@@ -208,10 +207,11 @@ Linpack* benchmark
 
 - Example:
 
-            CPU A   CPU B   CPU C 
-Program 1   1       10      20 
-Program 2   1000    100     20 
-Total       1001    110     40
+    ||CPU A|   CPU B|   CPU C| 
+    |--|--|--|--|
+    |Program 1|   1    |    10 |     20 |
+    |Program 2|   1000 |   100 |    20  |
+    |Total    |   1001 |   110 |   40 |
 
 
 #### Practice Quiz
