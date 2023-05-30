@@ -400,3 +400,52 @@ T = (5*10^6 * 3.5)/2*10^9 = 8.75*10^-3 = 8.75ms
     - Decrease average CPI of all FP ops to 2.5 
 
 - Which one is best?
+
+
+## 2 Practice Quiz 
+
+1. Given the following performance of two programs on three CPUs,
+    use the geometric mean to calculate which computer is the fastest.
+
+    ||CPU A|CPU B|CPU C|
+    |--|--|--|--|
+    |P1|40|15|20|
+    |P2|40|1000|150|
+
+- [ ] CPU A is faster
+- [x] CPU B is faster 
+- [ ] CPU C is faster
+
+
+CPU A: 1
+CPU B: 3.06
+CPU C: 1.37
+
+
+2. Calculate the average CPI for the following instruction frequencies:
+
+|Instruction|Frequency|CPI_instruction|
+|--|--|--|
+|ALU|40%|4|
+|Load|30%|5|
+|Branch|25%|4|
+
+For 5M instructions?
+
+ALU: 0.4*4
+Load: 0.3*6 
+Store: 0.05*5 
+Branch: 0.25*4 
+
+Answer = 4.65
+
+
+
+3. For the CPU described in Question 2, what is the execution 
+    time in ms, supposing a CPU frequency of 2GHz?
+
+Answer:
+(5*10^6 * 4.65)/2*10^9 = 11.625 ms
+
+
+## 1.1.6 Amdahl's Law
