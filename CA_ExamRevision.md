@@ -310,7 +310,7 @@ TODO: fill in with formula
 |Program 2|   1000|    100|     20|
 
 
-||                    |Normalized to A||         |Normalized to B||
+||Normalized to A|||         |Normalized to B||
 |--|--|--|--|--|--|--|
 ||                    A|       B|       C|       A|       B|       C|
 |Program 1|           1.0|     0.1|     0.05|    10.0|    1.0|     0.5|
@@ -329,8 +329,8 @@ n_root(multiply_n(ExecutionTimeRatio_i))
 
 
 
-||                    Normalized to A|         Normalized to B|
-|--|--|--|
+||Normalized to A||||Normalized to B||
+|--|--|--|--|--|--|--|
 ||                    A|       B|       C|       A|       B|       C|
 |Program 1|           1.0|     0.1|     0.05|    10.0|    1.0|     0.5|
 |Program 2|           1.0|     10.0|    50|      0.1|     1.0|     5.0|
