@@ -462,14 +462,14 @@ p = # processor_cores
 
 Time = 1 = s + f/p
 
-S = 1/(s+f/p) = 1/(1-f+(f/g))
+S = 1/(s+f/p) = 1/(1-f+(f/p))
 
 ### Amdahl's Law Generalization
 - Suppose we can improve fraction f by factor F 
 - What will be overall improvement?
 
 
-S = 1/(s+f/p) = 1/(1-f+(f/g))
+S = 1/(s+f/p) = 1/(1-f+(f/p))
 
 
 S = speedup 
@@ -478,3 +478,461 @@ f = 1 - s = fraction we can improve
 F = improvement factor
 
 ## 1.1.7 Amdahl's Law Example
+
+- FP instructions improved to run 2X as fast, but only 10% 
+    of all executed instructions are FP 
+
+    S = 1/(1-f+f/F) = 1/(0.9+0.1/2) = 1/0.95 = 1.053
+
+- We want overall speedup of 2 and can accelerate FP 
+    instructions by 4X 
+    
+    - What should be the fraction of FP instructions?
+
+    S = 1/(1-f+f/F) -> 2 = 1/(1-f+f/4) -> f = 0.5/0.75 = 66.7%
+
+
+### Amdahl's Law Implications
+
+2 independent parts A and B. AAAAAAAABBBBB
+Make B 5x faster             AAAAAAAAB
+Make A 2x faster             AAAABBBBB
+
+
+- Implications: 
+    - Make the common case fast
+    - Law of diminishing returns: optimizations will have
+        less and less effects
+
+### Design Principl.s to Make Processors Faster
+
+- Take advantage of parallelism
+    - Pipelining, ILP(Instruction level), DLP(data level), TLP(thread level)
+
+
+- Principle of locality
+    - Programs spend 90% of their execution time 
+        in 10% of their code 
+    - Can predict with reasonable accuracy which instructions and data 
+        program will use in near future
+
+- Make the common case fast 
+    - Amdahl's law
+
+
+### Summary
+- Aspects of computer performance:
+    latency, throughput, availability,...
+- Computer architects focus on CPU time 
+- SPEC is successful desktop benchmark suite 
+    - EEMBC used in embedded domain
+
+- Use geometric mean to summarize execution time ratios
+
+ExecutionTimeRatio = ExecutionTime_reference/ExecutionTime_new
+
+- Amdahl's law implies design rule "make the common case fast"
+
+S = 1/(s+f/p) = 1/(1-f+f/p)
+
+- CPU performance equation 
+
+T = (N_instr x CPI)/f
+
+
+- Design principles
+    - Exploit parallelism 
+    - Exploit locality 
+    - Make the common case fast
+
+### Test Yourself
+
+- What is a benchmark? 
+- Are real applications used to measure CPU performance?
+- What is SPEC? 
+- We can improve 75% of the total execution time of our 
+    application by a factor of 3. What is the overall speedup?
+
+    - [ ] 3.0 
+    - [ ] 1.5 
+    - [x] 2.0 
+    - [ ] 1.2
+
+
+
+## 1.1.8 Introduction to Embedded Systems
+
+### What are Embedded Systems?
+
+- Embedded system = computer system with dedicated function 
+    lodged in other devices 
+
+    - Hard to define boundry between embedded and general purpose computing
+
+### Examples of Embedded Systems
+- Everyday machines and devices 
+    - Watches, cameras, microwaves, washing machines, TVs,...
+
+- Automobiles, airplanes, trains 
+- Handheld digital devices 
+    - PDAs, cell phones, music players,...
+- Video game consoles, set-top boxes
+- Printers, network swithes
+- ... 
+
+
+### Characteristics and Requirements of Embedded Systems 
+- Execute 1 or few applications 
+    - Lower compatibility barriers
+
+- Real-time constraints
+- Minimize cost
+- Minimize power consumption
+- Minimize memory
+- Physical dimensions
+- Interface with physical world
+
+
+### Real-Time Consraints 
+- Real-time performance requirement: (segment of)
+    application has absolute maximum execution time
+
+- Hard real-time system 
+    - all deadlines are hard 
+    - missed deadline = total system failure
+    - Ex: airbag
+
+- Soft real-time system 
+    - some deadlines are soft 
+    - soft deadline may occasionally be missed 
+    - Ex: video player
+
+### Implementation Alternatives 
+
+- General purpose processors (GPPs)
+- Application-specific instruction set processors (ASIPs)
+- Reconfigurable hardware (FPGAs)
+- Application-specific integrated circuits(ASICs)
+
+vvv Performance and power, ^^^ Flexebility
+
+
+
+### Exercise
+- What are embedded systems? 
+- What is the main difference between hard and soft real-time systems?
+
+
+### Practice Quiz
+1. What is the difference between a hard and soft real-time system?
+- [x] in a hard-real time systems all deadlines must be met while 
+        in a soft-real time system occasionally some deadlines may 
+        be missed. 
+- [ ] in a soft-real time system all deadlines must be met while in a 
+        hard-real time system occasionally some deadlines may 
+        be missed
+
+
+## Practice Quiz 
+
+1. What is an embedded system? 
+- [ ] Every computing system is an embedded system 
+- [x] A computing system with dedicated function, often with
+        real-time constraints, is an embedded system
+- [ ] A general purpose computer with less than 1GB of RAM is 
+        an embedded system 
+- [ ] A system which has an ARM processor is an embedded system
+
+
+2. Faster execution time always means less energy
+- [ ] True
+- [x] False
+
+
+3. Why is it important to minimize energy consumption in an embedded system?
+- [ ] restricted availability of energy 
+- [ ] limited battery capacity 
+- [x] both (a) and (b)
+
+
+## Review Quiz 1.1
+
+1. What is the best metric for comparing performance?
+- [ ] arithmetic mean 
+- [x] geometric mean 
+- [ ] median 
+- [ ] maximum performance 
+- [ ] harmonic mean 
+
+
+2. Calculate the execution time in ms, supposing to have a CPU 
+    with the following instruction frequencies: 
+
+    | Instruction    | Frequency    | CPI_instr    |
+    |---------------- | --------------- | --------------- |
+    | ALU    | 45%    | 5    |
+    | Load    | 25%    | 6    |
+    | Store   | 10%   | 5   |
+    | Branch   | 20%   | 3   |
+     
+
+    For 2M instructions and a CPU frequency of 3GHz?
+
+    Answer: T = 2*10^6 x (.45*5+.25*6+.1*5+.2*3)/3*10^9
+            = 3.233x10^-3 s = 3.233 ms
+
+
+3. Which of the following is an energy efficiency metric?
+- [ ] FLOPS 
+- [ ] MIPS 
+- [x] Performance per watt
+- [ ] Power consumption
+
+
+4. Both power consumption and performance per watt matters for an embedded system
+- [x] True 
+- [ ] False
+
+
+
+## 1.2.1 Highlights of MIPS64 Architecture
+
+### Module Objectives 
+
+After this module you are able to 
+- describe main features of MIPS64 ISA 
+- translate (C-) code to MIPS64 assembly 
+- optimize MIPS64 code
+
+
+### MIPS 64 
+- Simple load-store instruction set 
+- Designed for pipelining efficiency 
+- Efficient instruction set for compiler to target
+
+
+### Registers
+
+- 32 64-bit general-purpose registers (GPRs)
+    - R0,R1,...,R31
+- R0 is always 0
+
+
+- 32 floating-point registers (FPRs)
+    - F0,F1,...,FP31
+    - hold single- or double-
+        precision FPs (float,double)
+    - when used as single-precision,
+        half of FPR is unused
+
+- Instructions for moving between GPRs and FPRs
+
+
+### Special Registers
+
+- Few special registers: 
+    - hi and lo:
+        - (2n)-bit product of n-bit multiply 
+        - quotient and remandier of division
+    - floating-point status register 
+    - Execption program counter
+- Instructions for moving special registers from/to GPRs
+
+
+### Data Types
+- Integer: 
+    - 8-bit bytes (char)
+    - 16-bit half words (short,Unicode)
+    - 32-bit words
+    - 64-bit double words
+
+- Operations process 64-bit integers 
+    - Bytes, half words, words are zeor extended (lbu, lhu, lwu) or 
+        sign extended (lb,lh,lw)
+
+
+- Floating-point 
+    - 32-bit single-precision (float)
+    - 64-bit double-precision (double)
+
+
+### Practice Quiz
+
+1. How can you emulate register indirect addressing mode in MIPS64?
+- [ ] By using R0 as base register 
+- [ ] Combining register direct and immediate
+- [x] By using displacement 0 in register indirect with displacement
+- [ ] Cannot be emulated
+
+
+## 1.2.2 MIPS64 Addressing Modes and Instruction Formats
+
+
+### Addressing Modes 
+
+| Mode    | Example    | Meaning    | When used    |
+|---------------- | --------------- | --------------- | --------------- |
+| Register direct    | add R1,R2,R3    | R1 = R2+R3    | when value is in register    |
+| Immediate    | addi R1,R2,#3   | R1 = R2+3   | for constants   |
+| Reg ind w/ displ   | lw R1,100(R2)   | R1 = Mem[R2+100]   | for array elements   |
+
+- Register indirect: displacement is 0 
+- Absolute addressing: R0 base register
+- Mode bit specifies Big Endian / Little Endian
+- Data type specified in opcode
+    lb,lh,lw,ld,l.s,l.d
+
+- Memory accesses must be aligned
+
+
+## 1.2.3 MIPS64 Operations
+
+### Operations 
+- Four broad classes 
+    - loads and store 
+    - ALU operations 
+    - Branches and jumps
+    - Floating-point
+
+
+
+### Floating-point Operations 
+- Arithmetic instructions: ADD.{S,D},SUB.{S,D},MUL.{S,D},DIV.{S,D}
+- Paired single operations perform 2 FP operations on each half of 
+    FP register: {ADD,SUB,MUL,DIV}.PS
+- Multiply-add: MADD.{S,D,PS}
+- Moves: MOV.{S,D}
+- Compares: C.{LT,LE,EQ}.{S,D}F0,F1 
+    - set bits in FP status register 
+- Branches: BC1{T,F}
+    - branch on coprocessor 1 (= floating-point unit) true, false
+
+
+- Conversion: 
+    - cvt.d.s F0,F1 ; F0 = (double)F1 (convert single to double)
+    - cvt.w.d F0,F1 ; F0 = (int)F1(convert double to word)
+
+- Moves between FPRs and GPRs:
+    - MFC R1,F1 ; R1 = F1 
+    - MTC1 F1,R1 ; F1 = R1
+
+
+## 1.2.4 Basic Code Optimizations
+
+### Practice Quiz
+1. When can we move branch testing condition to the end?
+- [ ] Loop not executed at all 
+- [x] Loop executed at least once
+- [ ] Loop executed n times 
+- [ ] Loop executed at least 2 times
+
+
+### Loop Unrolling 
+- In general 
+    - loop upper bound n unknown 
+    - n no multiple of loop unrolling factor k 
+
+- Then need 2 loops: 
+    - 1 unrolled that iterates [n/k] times
+    - Copy of original that iterates n mod k times
+        - But mod expensive operation that shoud be avoided
+
+
+
+## Review Quiz 2 
+1. Load-store architecture only allows memory to be accessed by 
+    load and store instructions
+- [x] True
+- [ ] False
+
+
+2. What is the difference between DADD and DADDU instructions? 
+- [x] DADD is a double word add instruction and supports overflow 
+        detection while DADDU is double word unsigned add instruction and 
+        does not support overflow detection
+- [ ] DADD is a double word add and does not support overflow detection 
+        while DADDU is double word unsigned add and supports overflow detection
+
+
+3. Assume a loop with n iterations has been unrolled by a factor of k. 
+    How many times the second loop should iterate when n%k != 0?
+- [ ] ceil(n%k)
+- [ ] ceil(n/k)
+- [ ] floor(n%k)
+- [x] floor(n/k)
+
+
+4. What are the disadvantages of loop unrolling?
+- [x] Loop unrolling increases the number of instructions 
+- [x] Loop unrolling may increase instruction cache misses
+
+
+5. What are three basic code optimization techniques?
+- [x] elimination of induction variables
+- [x] loop unrolling 
+- [ ] hardware prefetching 
+- [ ] set associative cache 
+- [x] elimination of redundant branches
+
+
+
+## 1.3.1 Pipelining Principles 
+
+### Module Objectives 
+After this module you are able to 
+
+- describe pipeline concept
+- list 5 stages in classical pipline and 
+    what happens in each 
+- describe which features of MIPS ISA 
+    make pipelining easy 
+- describe pipelining hazards and potential solutions
+
+
+### Pipelining - The Idea
+
+- Laundry Example: Ann, Ben, Cathy, Dave each have one load
+    of clothes to wash, dry, and fold
+- Washer takes 30 minutes
+- Dryer takes 40 minutes 
+- "Folder" takes 20 minutes
+
+
+Sequential laundry: 
+- Do everything then start the next one 
+
+
+Pipelined Laundry: Start work ASAP
+- Ideal speedup = # stages
+- Do we achieve this? 
+- Why?
+
+
+## 1.3.2 Canonical 5 Stage Pipeline
+
+### Classical 5-Stage Pipeline
+
+- Instruction fetch (IF)
+- Instruction decode (ID) read source registers
+- Execute (EX)
+- Memory access (MEM)
+- Write Back (WB)
+
+| cycle1    | cycle2    | cycle3    | cycle4    | cycle5    |
+|---------------- | --------------- | --------------- | --------------- | --------------- |
+| IF    | ID    | EX    | MEM    | WB   |
+
+
+
+### Practice Quiz 
+
+1. What is the ideal speedup due to pipelining?
+- [ ] # executed instructions
+- [x] # stages
+
+
+
+## 1.3.3 MIPS Pipeline Features and Pipeline Hazards
+
+
+
