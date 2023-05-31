@@ -449,3 +449,32 @@ Answer:
 
 
 ## 1.1.6 Amdahl's Law
+
+### Amdahl's Law
+
+"If 50% of the execution time is sequential, the maximum speedup
+is 2, no matter how many cores/processes you use"
+
+S = speedup 
+s = 1 - f = serial_fraction
+f = 1 - s = parallel_fraction
+p = # processor_cores
+
+Time = 1 = s + f/p
+
+S = 1/(s+f/p) = 1/(1-f+(f/g))
+
+### Amdahl's Law Generalization
+- Suppose we can improve fraction f by factor F 
+- What will be overall improvement?
+
+
+S = 1/(s+f/p) = 1/(1-f+(f/g))
+
+
+S = speedup 
+s = 1 - f = fraction we cannot improve 
+f = 1 - s = fraction we can improve 
+F = improvement factor
+
+## 1.1.7 Amdahl's Law Example
