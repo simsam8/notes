@@ -905,7 +905,7 @@ Sequential laundry:
 Pipelined Laundry: Start work ASAP
 - Ideal speedup = # stages
 - Do we achieve this? 
-- Why?
+- Why? -> binary compatibility
 
 
 ## 1.3.2 Canonical 5 Stage Pipeline
@@ -934,5 +934,284 @@ Pipelined Laundry: Start work ASAP
 
 ## 1.3.3 MIPS Pipeline Features and Pipeline Hazards
 
+### What Makes Pipelining Easy? 
+- All MIPS instructions same lenght
+- Few instructions formats 
+
+- Only load ant store access memory 
+    - Assume support for "add memory"
+    - addmem R1,R2,4(R3) ; R1 = R2 + Memory[4+R3]
 
 
+### What Makes Pipelining Challenging? 
+- Structural Hazards 
+    - HW(hardware) cannot support papallel execution of instr stages
+
+- Control Hazards 
+    - delay between fetching and performing branch/jump
+
+- Data Hazards 
+    - Instr needs result of other instr still in pipeline
+
+
+## 1.3.4 Structural Hazards and Data Hazards
+
+### Structural Hazards 
+- Suppose 1 memory w/1 port 
+
+### Data Hazards 
+- When does register file access take place?
+
+
+### Practice Quiz
+1. What is a data hazard?
+- [x] a hazard occuring because an instruction depends upon the 
+        result of a prior instruction 
+- [x] a hazard occuring because the hardware cannot execute 
+        the instructions in parallel 
+- [ ] a hazard occurring because of a branch
+
+
+### Forwarding / Bypassing
+
+- Don't wait until result writte back to RF but forward it to 
+    next stage immediately
+
+
+## 1.3.5 Load-use Data Hazard
+
+
+### Hata Hazard Even with Forwarding
+
+- Load-use data hazard
+
+### Hazard Detection Unit 
+- Detects data hazard 
+    - ID/EX.instr==Id && (ID/EX.rt==IF/ID.rs||ID/EX.rt==IF/ID.rt)
+
+- Stalls pipeline 
+    - prevent write to PC and IF/ID 
+    - insert no-op into EX stage
+
+
+### Scheduling to Avoid Load Hazards 
+- Produce fast code for 
+    - a-f stored in memory
+
+
+## 1.3.6 Control Hazards
+
+### Control Hazards
+- In current pipelined datapath, branch takes effect at end of MEM stage
+
+
+### Practice Quiz 
+1. How can we avoid data hazard? 
+- [ ] prediction 
+- [x] forwarding 
+- [ ] caching 
+- [ ] pipelining
+
+
+
+### Branch Penalty Impact
+
+- Assume
+    - ideal CPI = 1 
+    - 30% branches 
+    - 50% branches taken 
+    - 3-cicly penalty on taken branches
+
+- Actual CPI = 1 + 0.3x0.5x3 = 1.45
+
+### Reducing Branch Delay 
+- 2 part solution:
+    - Determine branch taken / not taken sooner AND 
+    - Compute branch target address earlier
+
+- MIPS solution: 
+    - Move branch condition evaluation to ID stage 
+    - Calculate branch target address in ID stage 
+        - Extra adder in ID stage 
+    - 1-cycle penalty for branch versus 3
+
+- MIPS branches test if reg=0, reg!=0,
+    reg1=reg2, reg1!=reg2,...
+
+
+
+## 1.3.7 Deal with Branch Hazards 
+
+### Recap 
+- Canonical pipeline 
+- Pipeline hazards 
+    - Structural hazards 
+    - Data hazards 
+    - Control hazards 
+    
+- Possible solution 
+    - Replicate Functional units (FUs) 
+    - Forwording - instr reordering 
+    - Early branch execution
+
+
+### 4 Branch Hazard Alternatives 
+
+1. Stall until branch direction is clear
+2. Predict Branch Not Taken 
+    - Execute successor instrs
+    - "Squash" instr in pipeline if branch actually taken
+3. Predict Branch Taken 
+    - 53% MIPS branches taken on average 
+    - But haven't calculated branch target adress in MIPS 
+        - Canonical MIPS pipeline still incurs 1 cycle branch penalty 
+        - Other processors: branch target known before branch decision
+
+4. Delayed Branch 
+    - Define branch to take place after a following instr
+    - Instr fetched until then are always executed
+    - MIPS uses this 
+        - single branch delay slot 
+        - instr after branch is always executed 
+        - all MIPS processors implement it, even if not needed. Why?
+
+
+### Practice Quiz
+1. MIPS uses single branch delay slot 
+- [x] True 
+- [ ] False
+
+
+## 1.3.8 Scheduling Instructions for Branch Delay Slot
+
+### Delayed Branch 
+
+- Where to get instructions to fill branch delay slot? 
+    - Frlom before branch 
+    - From target address: only valuable when branch taken 
+    - From fall through: only valuable when branch not taken
+
+- If compiler cannot find such an instruction, it must insert a nop(non operation)
+    - e.g. add r0,r0,r0
+
+
+### Scheduling Branch Delay Slot: From before 
+
+- Delay slot scheduled w/ instr from before the branch
+- Branch may net be dependent on the instr 
+- Best choice, always improves performance
+
+### Scheduling Branch Delay Slot: From Target 
+
+- Delay slot scheduled from branch target 
+- Must be OK to execute that instr if branch is not taken
+- Target instr may need to be copied because it can be reached 
+    by another path
+- Good choice if branch taken with high probability
+
+
+
+### Scheduling Branch Delay Slot: From Fall Through 
+- Delay slot scheduled from fall through path 
+- Must be OK to execute that instr if branch taken 
+- Improves performance when branch is not taken with high probability
+
+
+## Delayed Branch Conclusion 
+- Compiler effectiveness for single branch delay slot: 
+    - 60% of branch delay slots filled 
+    - 80% of instrs executed in branch delay slots useful 
+    - 60% x 80% =(prox) 50% of slots usefully filled
+
+
+- Downside
+    - Modern cores deeper pipelines and multiple issue ->  
+        branch delay grows and > 1 delay slot needed
+    - Delayed branch replaced by more expensive but more flexible
+        dynamic approaches (branch prediction)
+    - Growth in #transitors made dynamic approaches relatively cheaper
+
+## 1.3.9 Module Summary
+
+### Summary 
+- Can increase frequency & performance by pipelining instrs 
+- Canonical pipeline: IF ID EX MEM WB 
+- MIPS ISA designed w/ pipelining in mind 
+    - All instrs 4 bytes 
+    - Src regs always in same fields
+    - Load/store architecture
+
+| Pipelining hazard   | Possible solutions    |
+|--------------- | --------------- |
+| Structural hazard   | Replicate functional units   |
+| Data hazard   | Forwarding - Hazard detection - Instr reordering   |
+| Control hazard   | Early branch execution - Branch delay slots - Branch prediction   |
+
+
+### Practice Quiz 
+1. What are the reasons for NOT using branch delay slots 
+    in the modern processors? 
+- [x] mode flexible approaches such as dynamic branch prediction available
+- [x] hard to find several independent instructions for delay slots
+- [x] modern processors use deeper pipelines
+
+
+## 1.3.10 Exercise
+
+- Show how code will be executed on 5-stage pipeline with full 
+    forwarding HW by completing table below
+    - Place IF,ID,EX,MEM, or WB in the box if instr in 1st 
+        column is in that stage
+
+
+## 3 Review Quiz
+
+1. What makes pipelining challenging? 
+- [x] structural hazards
+- [x] control hazards
+- [x] data hazards
+
+2. What is the penalty of a branch in MIPS? 
+- [x] 1CC 
+- [ ] 2CC 
+- [ ] 3CC 
+- [ ] 4CC 
+
+3. The instruction in the branch delay slot is always executed 
+- [x] True 
+- [ ] False
+
+4. Who inserts instruction in the branch delay slot? 
+- [ ] student 
+- [x] compiler 
+- [ ] professor 
+- [ ] programmer
+
+
+## 1.4.1 Multicycle Operations
+
+### Module Objectivel 
+
+After this module you are able to 
+- extend canonical MIPS pipeline with multicycle operations 
+- identify hazards in longe pipelines and potential solutions 
+- describe MIPS R4000 pipeline 
+- optimize code for particular pipeline organization
+
+### Multicycle Operations 
+- Certain instructions (e.g., mul, div, FP operations) do not execute in 1 cycle
+
+- Must handle multicycle operations 
+    - Introduce several execution pipelines 
+    - Allow multiple outstanding operations
+    
+### Multiple Functional Units
+
+- IF 
+- ID 
+    - EX 
+    - M(FP/int multiplier)
+    - A (FP adder)
+    - DIV (FP/int divider)
+- MEM 
+- WB
